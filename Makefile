@@ -1,5 +1,6 @@
 DOTNET_RUN = dotnet
 DOCKER_COMPOSE = docker compose
+
 up:
 	${DOCKER_COMPOSE} up -d
 
@@ -17,3 +18,6 @@ run:
 
 watch:
 	$(DOTNET_RUN) watch
+
+add:
+	$(DOTNET_RUN) add package ${name}

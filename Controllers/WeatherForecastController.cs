@@ -1,3 +1,5 @@
+using System.Reflection;
+using GoodMarket.Queue;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GoodMarket.Controllers;
@@ -6,6 +8,8 @@ namespace GoodMarket.Controllers;
 [Route("[controller]")]
 public class WeatherForecastController : ControllerBase
 {
+    private readonly IRabitMQProducer _rabitMQProducer;
+    
     private static readonly string[] Summaries = new[]
     {
         "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
@@ -13,20 +17,31 @@ public class WeatherForecastController : ControllerBase
 
     private readonly ILogger<WeatherForecastController> _logger;
 
-    public WeatherForecastController(ILogger<WeatherForecastController> logger)
+    public WeatherForecastController(ILogger<WeatherForecastController> logger, IRabitMQProducer rabitMQProducer)
     {
         _logger = logger;
+        _rabitMQProducer = rabitMQProducer;
     }
 
     [HttpGet(Name = "GetWeatherForecast")]
     public IEnumerable<WeatherForecast> Get()
     {
-        return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+        var res = Enumerable.Range(1, 5).Select(index => new WeatherForecast
         {
             Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
             TemperatureC = Random.Shared.Next(-20, 55),
             Summary = Summaries[Random.Shared.Next(Summaries.Length)]
         })
         .ToArray();
+        
+        _logger.LogInformation("WeatherForecastController Get - this is a nice message to test the logs", DateTime.UtcNow);
+        var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+        var index =
+            $"{Assembly.GetExecutingAssembly().GetName().Name.ToLower().Replace(".", "-")}-{environment?.ToLower().Replace(".", "-")}-{DateTime.UtcNow:yyyy-MM}";
+        
+        _logger.LogInformation(index);
+        _rabitMQProducer.SendProductMessage(res);
+        
+        return res;
     }
 }
