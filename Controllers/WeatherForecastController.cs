@@ -1,5 +1,6 @@
 using System.Reflection;
 using GoodMarket.Queue;
+using GoodMarket.Queue.Kafka;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GoodMarket.Controllers;
@@ -33,6 +34,9 @@ public class WeatherForecastController : ControllerBase
             Summary = Summaries[Random.Shared.Next(Summaries.Length)]
         })
         .ToArray();
+        
+        ProduceMessage produceMessage = new ProduceMessage();
+        produceMessage.CreateMessage("Hello");
         
         _logger.LogInformation("WeatherForecastController Get - this is a nice message to test the logs", DateTime.UtcNow);
         var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
