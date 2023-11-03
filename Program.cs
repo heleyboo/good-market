@@ -1,9 +1,12 @@
 using System.Reflection;
 using System.Text;
 using GoodMarket.Authentication;
+using GoodMarket.Context;
 using GoodMarket.Extension;
 using GoodMarket.Queue;
 using GoodMarket.Queue.Producer;
+using GoodMarket.Repositories;
+using GoodMarket.Repositories.Contracts;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +28,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<IRabitMQProducer, RabitMQProducer>();
+builder.Services.AddTransient<GmDbContext>();
+builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 
 // For Identity
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
@@ -54,6 +59,14 @@ builder.Services.AddAuthentication(options =>
         };
     });
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        policy =>
+        {
+            policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+        });
+});
 
 var app = builder.Build();
 
@@ -70,6 +83,12 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseCors(x => x
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .SetIsOriginAllowed(origin => true) // allow any origin
+    .AllowCredentials()); // allow credentials
 
 app.Run();
 

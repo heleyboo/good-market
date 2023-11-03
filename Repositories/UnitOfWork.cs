@@ -1,4 +1,5 @@
 using GoodMarket.Context;
+using GoodMarket.Models;
 using GoodMarket.Repositories.Contracts;
 
 namespace GoodMarket.Repositories;
@@ -8,11 +9,14 @@ public class UnitOfWork: IUnitOfWork
     private GmDbContext context;
     
     private bool _disposed = false;
-
+    
     public UnitOfWork(GmDbContext context)
     {
         this.context = context;
+        PostRepository = new PostRepository(context);
     }
+    
+    public IPostRepository PostRepository { get; }
     
     public void Dispose()
     {
