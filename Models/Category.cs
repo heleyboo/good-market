@@ -6,6 +6,8 @@ public class Category
     public string Name { get; set; }
     public string Code { get; set; }
     public string ImageUrl { get; set; }
-    public List<Category> Subcategories { get; set; } = new List<Category>();
     public int? ParentCategoryId { get; set; }
+    // Navigation properties
+    public Category? ParentCategory { get; set; }
+    public List<Category> Subcategories { get; set; } = new List<Category>();
 }

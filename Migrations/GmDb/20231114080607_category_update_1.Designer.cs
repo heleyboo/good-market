@@ -3,6 +3,7 @@ using System;
 using GoodMarket.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace GoodMarket.Migrations.GmDb
 {
     [DbContext(typeof(GmDbContext))]
-    partial class GmDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231114080607_category_update_1")]
+    partial class category_update_1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,6 +48,7 @@ namespace GoodMarket.Migrations.GmDb
                         .HasColumnType("character varying(255)");
 
                     b.Property<int?>("ParentCategoryId")
+                        .IsRequired()
                         .HasColumnType("integer");
 
                     b.HasKey("Id");

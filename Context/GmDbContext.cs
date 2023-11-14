@@ -49,6 +49,15 @@ public class GmDbContext: DbContext
         modelBuilder.Entity<Category>()
             .Property(c => c.ImageUrl)
             .HasMaxLength(255); 
+        
+        modelBuilder.Entity<Category>()
+            .Property(c => c.ParentCategoryId)
+            .IsRequired(false); 
+        
+        modelBuilder.Entity<Category>()
+            .HasOne<Category>(w => w.ParentCategory)
+            .WithMany(d => d.Subcategories)
+            .HasForeignKey(w => w.ParentCategoryId);
 
         // Additional configurations as needed
 
