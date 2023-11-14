@@ -288,6 +288,15 @@ public class GmDbContext: DbContext
             .HasColumnName("code_name_en")
             .HasColumnType("varchar");
 
+        modelBuilder.Entity<Form>().ToTable("Forms").HasKey(k => k.Id);
+
+        modelBuilder
+            .Entity<Form>()
+            .HasOne<Category>(f => f.Category)
+            .WithOne(c => c.Form)
+            .HasForeignKey<Category>(ct => ct.FormId);
+            
+
         base.OnModelCreating(modelBuilder);
     }
 }
