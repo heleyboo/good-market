@@ -1,3 +1,4 @@
+using GoodMarket.DataTransferObjects.Response;
 using GoodMarket.Models;
 using GoodMarket.Services.Contracts;
 using Microsoft.AspNetCore.Mvc;
@@ -15,12 +16,16 @@ public class CategoryController : ControllerBase
         _categoryService = categoryService;
     }
 
-    // GET api/categories
+    /// <summary>
+    /// GET api/categories
+    /// </summary>
+    /// <returns></returns>
     [HttpGet]
     public IActionResult Get()
     {
         var categories = _categoryService.GetAllCategories();
-        return Ok(categories);
+        var response = BaseResponse<IEnumerable<Category>>.Success(categories);
+        return Ok(response);
     }
 
     // GET api/categories/{id}
@@ -34,7 +39,7 @@ public class CategoryController : ControllerBase
             return NotFound(); // Return 404 Not Found if the category is not found
         }
 
-        return Ok(category);
+        return Ok(BaseResponse<Category>.Success(category));
     }
 
     // POST api/categories
