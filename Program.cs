@@ -7,6 +7,8 @@ using GoodMarket.Queue;
 using GoodMarket.Queue.Producer;
 using GoodMarket.Repositories;
 using GoodMarket.Repositories.Contracts;
+using GoodMarket.Services;
+using GoodMarket.Services.Contracts;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -30,6 +32,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<IRabitMQProducer, RabitMQProducer>();
 builder.Services.AddTransient<GmDbContext>();
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
+builder.Services.AddTransient<ICategoryService, CategoryService>();
 
 // For Identity
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()

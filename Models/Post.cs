@@ -6,4 +6,5 @@ public class Post
     public string ThumbnailUrl { get; set; }
     public string Title { get; set; }
     public long Price { get; set; }
+    public string Description { get; set; }
 }

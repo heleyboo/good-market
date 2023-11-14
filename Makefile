@@ -8,10 +8,10 @@ down:
 	${DOCKER_COMPOSE} down
 
 migration:
-	$(DOTNET_RUN) ef migrations add ${name}
+	$(DOTNET_RUN) ef migrations add ${name} --context=GmDbContext
 
 dbupdate:
-	$(DOTNET_RUN) ef database update
+	$(DOTNET_RUN) ef database update --context=GmDbContext
 
 run:
 	$(DOTNET_RUN) run

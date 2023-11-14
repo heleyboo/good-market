@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
 using GoodMarket.Context;
 using GoodMarket.Repositories.Contracts;
+using Microsoft.EntityFrameworkCore;
 
 namespace GoodMarket.Repositories;
 
@@ -32,5 +33,20 @@ public class GenericRepository < T > : IGenericRepository < T > where T: class {
     }
     public void RemoveRange(IEnumerable < T > entities) {
         context.Set<T>().RemoveRange(entities);
+    }
+
+    public void Update(T updatedEntity)
+    {
+        context.Entry(updatedEntity).State = EntityState.Modified;
+    }
+
+    public void Delete(int entityId)
+    {
+        var entityToDelete = context.Set<T>().Find(entityId);
+        
+        if (entityToDelete != null)
+        {
+            context.Set<T>().Remove(entityToDelete);
+        }
     }
 }
