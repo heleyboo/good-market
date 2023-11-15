@@ -29,6 +29,9 @@ public class GmDbContext: DbContext
         modelBuilder.ApplyConfiguration(new CategoryConfiguration());
         modelBuilder.ApplyConfiguration(new FormFieldConfiguration());
         modelBuilder.ApplyConfiguration(new FormConfiguration());
+        modelBuilder.ApplyConfiguration(new BrandConfiguration());
+        modelBuilder.ApplyConfiguration(new EditionConfiguration());
+        modelBuilder.ApplyConfiguration(new ItemStatusConfiguration());
 
         base.OnModelCreating(modelBuilder);
     }
