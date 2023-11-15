@@ -35,8 +35,8 @@ public class WeatherForecastController : ControllerBase
         })
         .ToArray();
         
-        ProduceMessage produceMessage = new ProduceMessage();
-        produceMessage.CreateMessage("Hello");
+        // ProduceMessage produceMessage = new ProduceMessage();
+        // produceMessage.CreateMessage("Hello");
         
         _logger.LogInformation("WeatherForecastController Get - this is a nice message to test the logs", DateTime.UtcNow);
         var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");

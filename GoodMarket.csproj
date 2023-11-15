@@ -32,6 +32,7 @@
 
   <ItemGroup>
     <Folder Include="DataTransferObjects\Request\" />
+    <Folder Include="Migrations\GmDb\" />
     <Folder Include="Queue\Subscriber\" />
   </ItemGroup>
 

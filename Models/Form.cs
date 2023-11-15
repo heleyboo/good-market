@@ -4,32 +4,43 @@ public class Form
 {
     public int Id { get; set; }
     public string Name { get; set; }
-    public List<FormField> Fields { get; set; }
     public Category Category { get; set; }
+    
+    // Navigation property to represent the relationship
+    public ICollection<FormField> FormFields { get; set; }
 }
 
 public enum FormFieldType
 {
-    Files,
     Text,
     Date,
     Time,
+    Checkbox,
+    Radio,
     Password,
     Email,
     Phone,
-    SelectOptions
+    SingleSelect,
+    MultiSelect,
+    Address,
 }
-
-public class Option
-{
-    public int Id { get; set; }
-    public string Value { get; set; }
-}
-
 public class FormField
 {
-    public string Label { get; set; }
+    public int Id { get; set; }
+    public string? Label { get; set; }
     public FormFieldType Type { get; set; }
+    public string Name { get; set; }
     public bool IsRequired { get; set; }
-    public List<Option> Options { get; set; }
+    public bool IsHidden { get; set; }
+    public bool IsDisabled { get; set; }
+    public string? Value { get; set; }
+    public int SortOrder { get; set; }
+    public string? Placeholder { get; set; }
+    public string? ApiUrl { get; set; }
+    
+    // New property for the foreign key
+    public int FormId { get; set; }
+
+    // Navigation property to represent the relationship
+    public Form Form { get; set; }
 }

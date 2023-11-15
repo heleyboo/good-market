@@ -73,14 +73,15 @@ namespace GoodMarket.Migrations.GmDb
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Forms", (string)null);
                 });
 
-            modelBuilder.Entity("GoodMarket.Models.Post", b =>
+            modelBuilder.Entity("GoodMarket.Models.FormField", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -88,24 +89,51 @@ namespace GoodMarket.Migrations.GmDb
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Description")
+                    b.Property<string>("ApiUrl")
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
+                    b.Property<int>("FormId")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("IsDisabled")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsHidden")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsRequired")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Label")
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<string>("Placeholder")
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Type")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<long>("Price")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("ThumbnailUrl")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<string>("Value")
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("posts", (string)null);
+                    b.HasIndex("FormId");
+
+                    b.ToTable("FormFields", (string)null);
                 });
 
             modelBuilder.Entity("GoodMarket.Models.VietnameseAdministrativeUnits.AdministrativeRegion", b =>
@@ -347,6 +375,17 @@ namespace GoodMarket.Migrations.GmDb
                     b.Navigation("ParentCategory");
                 });
 
+            modelBuilder.Entity("GoodMarket.Models.FormField", b =>
+                {
+                    b.HasOne("GoodMarket.Models.Form", "Form")
+                        .WithMany("FormFields")
+                        .HasForeignKey("FormId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Form");
+                });
+
             modelBuilder.Entity("GoodMarket.Models.VietnameseAdministrativeUnits.District", b =>
                 {
                     b.HasOne("GoodMarket.Models.VietnameseAdministrativeUnits.AdministrativeUnit", "AdministrativeUnit")
@@ -413,6 +452,8 @@ namespace GoodMarket.Migrations.GmDb
                 {
                     b.Navigation("Category")
                         .IsRequired();
+
+                    b.Navigation("FormFields");
                 });
 
             modelBuilder.Entity("GoodMarket.Models.VietnameseAdministrativeUnits.AdministrativeRegion", b =>
