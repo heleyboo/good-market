@@ -32,6 +32,10 @@ public class GmDbContext: DbContext
         modelBuilder.ApplyConfiguration(new BrandConfiguration());
         modelBuilder.ApplyConfiguration(new EditionConfiguration());
         modelBuilder.ApplyConfiguration(new ItemStatusConfiguration());
+        modelBuilder.ApplyConfiguration(new AttributeConfiguration());
+        modelBuilder.ApplyConfiguration(new AttributeGroupConfiguration());
+        modelBuilder.ApplyConfiguration(new AttributeOptionConfiguration());
+        modelBuilder.ApplyConfiguration(new CategoryAttributeConfiguration());
 
         base.OnModelCreating(modelBuilder);
     }

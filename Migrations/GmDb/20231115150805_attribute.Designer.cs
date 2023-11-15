@@ -3,6 +3,7 @@ using System;
 using GoodMarket.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace GoodMarket.Migrations.GmDb
 {
     [DbContext(typeof(GmDbContext))]
-    partial class GmDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231115150805_attribute")]
+    partial class attribute
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,172 +24,6 @@ namespace GoodMarket.Migrations.GmDb
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-            modelBuilder.Entity("GoodMarket.Models.Attribute", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("AllowedExtensions")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("AttributeGroupId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("BackendType")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTimeOffset>("DateCreated")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTimeOffset?>("DateDeleted")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTimeOffset?>("DateUpdated")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<bool>("DecimalAllowed")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("IsRequired")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("IsUnique")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("Label")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("MaxCharacters")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTimeOffset>("MaxDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<decimal>("MaxFileSize")
-                        .HasColumnType("numeric");
-
-                    b.Property<DateTimeOffset>("MinDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<bool>("NegativeAllowed")
-                        .HasColumnType("boolean");
-
-                    b.Property<decimal>("NumberMax")
-                        .HasColumnType("numeric");
-
-                    b.Property<decimal>("NumberMin")
-                        .HasColumnType("numeric");
-
-                    b.Property<string>("Placeholder")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Properties")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("SortOrder")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("ValidationRegexp")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<bool>("WysiwygEnabled")
-                        .HasColumnType("boolean");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AttributeGroupId");
-
-                    b.HasIndex("Code")
-                        .IsUnique();
-
-                    b.ToTable("Attribute");
-                });
-
-            modelBuilder.Entity("GoodMarket.Models.AttributeGroup", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTimeOffset>("DateCreated")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTimeOffset?>("DateDeleted")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTimeOffset?>("DateUpdated")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Label")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("SortOrder")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Code")
-                        .IsUnique();
-
-                    b.ToTable("AttributeGroup");
-                });
-
-            modelBuilder.Entity("GoodMarket.Models.AttributeOption", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("AttributeId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Label")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("SortOrder")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AttributeId");
-
-                    b.HasIndex("Code")
-                        .IsUnique();
-
-                    b.ToTable("AttributeOption");
-                });
 
             modelBuilder.Entity("GoodMarket.Models.Brand", b =>
                 {
@@ -253,21 +90,6 @@ namespace GoodMarket.Migrations.GmDb
                     b.HasIndex("ParentCategoryId");
 
                     b.ToTable("Categories", (string)null);
-                });
-
-            modelBuilder.Entity("GoodMarket.Models.CategoryAttribute", b =>
-                {
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("AttributeId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("CategoryId", "AttributeId");
-
-                    b.HasIndex("AttributeId");
-
-                    b.ToTable("CategoryAttribute");
                 });
 
             modelBuilder.Entity("GoodMarket.Models.Edition", b =>
@@ -608,28 +430,6 @@ namespace GoodMarket.Migrations.GmDb
                     b.ToTable("wards", (string)null);
                 });
 
-            modelBuilder.Entity("GoodMarket.Models.Attribute", b =>
-                {
-                    b.HasOne("GoodMarket.Models.AttributeGroup", "AttributeGroup")
-                        .WithMany("Attributes")
-                        .HasForeignKey("AttributeGroupId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("AttributeGroup");
-                });
-
-            modelBuilder.Entity("GoodMarket.Models.AttributeOption", b =>
-                {
-                    b.HasOne("GoodMarket.Models.Attribute", "Attribute")
-                        .WithMany("AttributeOptions")
-                        .HasForeignKey("AttributeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Attribute");
-                });
-
             modelBuilder.Entity("GoodMarket.Models.Category", b =>
                 {
                     b.HasOne("GoodMarket.Models.Form", "Form")
@@ -643,25 +443,6 @@ namespace GoodMarket.Migrations.GmDb
                     b.Navigation("Form");
 
                     b.Navigation("ParentCategory");
-                });
-
-            modelBuilder.Entity("GoodMarket.Models.CategoryAttribute", b =>
-                {
-                    b.HasOne("GoodMarket.Models.Attribute", "Attribute")
-                        .WithMany()
-                        .HasForeignKey("AttributeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("GoodMarket.Models.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Attribute");
-
-                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("GoodMarket.Models.Edition", b =>
@@ -741,16 +522,6 @@ namespace GoodMarket.Migrations.GmDb
                     b.Navigation("AdministrativeUnit");
 
                     b.Navigation("District");
-                });
-
-            modelBuilder.Entity("GoodMarket.Models.Attribute", b =>
-                {
-                    b.Navigation("AttributeOptions");
-                });
-
-            modelBuilder.Entity("GoodMarket.Models.AttributeGroup", b =>
-                {
-                    b.Navigation("Attributes");
                 });
 
             modelBuilder.Entity("GoodMarket.Models.Brand", b =>
